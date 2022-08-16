@@ -4,7 +4,7 @@ BUILD_DIR = build
 SOURCE_DIR = src
 
 $(BUILD_DIR)/VulkanTest: $(SOURCE_DIR)/main.cpp
-	mkdir $(BUILD_DIR)
+	mkdir -p $(BUILD_DIR)
 	clang++ $(CFLAGS) -o $(BUILD_DIR)/VulkanTest $(SOURCE_DIR)/main.cpp $(LDFLAGS)
 
 .PHONY: test clean
