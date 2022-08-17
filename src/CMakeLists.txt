@@ -7,10 +7,4 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 find_package(Vulkan REQUIRED)
 find_package(glfw3 3.3 REQUIRED)
 
-configure_file(headers/tetris_the_fun_way.hpp.in headers/tetris_the_fun_way.hpp)
-
-target_include_directories (FUNTetris
-  PRIVATE ./headers
-)
-
 target_link_libraries(FUNTetris PRIVATE Vulkan::Vulkan glfw)

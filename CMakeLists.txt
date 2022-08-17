@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(FUNTetris VERSION 0.0.1)
+project(FUNTetris)
 
 SET(CMAKE_CXX_STANDARD 20)
 

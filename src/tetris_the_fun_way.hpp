@@ -34,7 +34,7 @@ private:
   const std::vector<const char *> validationLayers = {
       "VK_LAYER_KHRONOS_validation"};
 
-  void initWindow();
+  inline void initWindow();
 
   std::vector<const char *> getRequiredExtensions();
 
@@ -42,11 +42,11 @@ private:
 
   void createInstance();
 
-  void initVulkan();
+  inline void initVulkan();
 
-  void mainLoop();
+  inline void mainLoop();
 
-  void cleanup();
+  inline void cleanup();
 };
 
 int main();

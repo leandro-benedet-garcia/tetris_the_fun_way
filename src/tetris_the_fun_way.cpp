@@ -1,21 +1,18 @@
-#define GLFW_INCLUDE_VULKAN
 #include "./tetris_the_fun_way.hpp"
-#include <GLFW/glfw3.h>
 
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
 #include <stdexcept>
-#include <vector>
 
-void TetrisTheFunWay::run() {
+inline void TetrisTheFunWay::run() {
   initWindow();
   initVulkan();
   mainLoop();
   cleanup();
 }
 
-void TetrisTheFunWay::initWindow() {
+inline void TetrisTheFunWay::initWindow() {
   glfwInit();
 
   glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
@@ -112,15 +109,14 @@ void TetrisTheFunWay::createInstance() {
     throw std::runtime_error("failed to create instance!");
 }
 
-void TetrisTheFunWay::initVulkan() { createInstance(); }
+inline void TetrisTheFunWay::initVulkan() { createInstance(); }
 
-void TetrisTheFunWay::mainLoop() {
-  while (!glfwWindowShouldClose(window)) {
+inline void TetrisTheFunWay::mainLoop() {
+  while (!glfwWindowShouldClose(window))
     glfwPollEvents();
-  }
 }
 
-void TetrisTheFunWay::cleanup() {
+inline void TetrisTheFunWay::cleanup() {
   vkDestroyInstance(instance, nullptr);
 
   glfwDestroyWindow(window);
