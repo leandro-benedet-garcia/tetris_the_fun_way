@@ -2,3 +2,6 @@ build/
 
 # ide
 .vscode/
+
+# cache
+.cache
