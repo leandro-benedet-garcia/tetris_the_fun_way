@@ -3,11 +3,15 @@
 
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
-
 #include <vector>
+
+#ifndef NDEBUG
+#include "./validation_layering.hpp"
+#endif
 
 class TetrisTheFunWay {
 public:
+  TetrisTheFunWay();
   void run();
 
 private:
@@ -29,16 +33,12 @@ private:
   const bool ENABLE_VALIDATION_LAYERS = false;
 #else
   const bool ENABLE_VALIDATION_LAYERS = true;
-#endif
-
+  ValidationLayering *validationLayering;
   const std::vector<const char *> validationLayers = {
       "VK_LAYER_KHRONOS_validation"};
+#endif
 
   inline void initWindow();
-
-  std::vector<const char *> getRequiredExtensions();
-
-  bool checkValidationLayerSupport(std::vector<const char *> validationLayers);
 
   void createInstance();
 

@@ -1,9 +1,16 @@
-#include "./tetris_the_fun_way.hpp"
-
+#include "./headers/tetris_the_fun_way.hpp"
+#ifndef NDEBUG
+#include "./validation_layering.hpp"
+#endif
 #include <cstdlib>
-#include <cstring>
 #include <iostream>
 #include <stdexcept>
+
+TetrisTheFunWay::TetrisTheFunWay() {
+#ifndef NDEBUG
+  validationLayering = new ValidationLayering(validationLayers);
+#endif
+}
 
 inline void TetrisTheFunWay::run() {
   initWindow();
@@ -21,55 +28,10 @@ inline void TetrisTheFunWay::initWindow() {
   window = glfwCreateWindow(WIDTH, HEIGHT, WINDOW_NAME, nullptr, nullptr);
 }
 
-std::vector<const char *> TetrisTheFunWay::getRequiredExtensions() {
-  uint32_t glfwExtensionCount = 0;
-  const char **glfwExtensions;
-  glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-
-  std::vector<const char *> extensions(glfwExtensions,
-                                       glfwExtensions + glfwExtensionCount);
-
-  if (ENABLE_VALIDATION_LAYERS)
-    extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-
-  return extensions;
-}
-
-bool TetrisTheFunWay::checkValidationLayerSupport(
-    std::vector<const char *> validationLayers) {
-  uint32_t layerCount;
-
-  vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
-
-  std::vector<VkLayerProperties> availableLayers(layerCount);
-  vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
-
-  for (const char *layerName : validationLayers) {
-    bool layerFound = false;
-
-    for (const auto &layerProperties : availableLayers) {
-      if (strcmp(layerName, layerProperties.layerName) == 0) {
-        layerFound = true;
-        break;
-      }
-    }
-
-    if (!layerFound) {
-      char *error;
-
-      std::sprintf(error, "validation %s requested, but not available!",
-                   layerName);
-
-      throw std::runtime_error(error);
-    }
-  }
-
-  return true;
-}
-
 void TetrisTheFunWay::createInstance() {
-  if (ENABLE_VALIDATION_LAYERS)
-    checkValidationLayerSupport(validationLayers);
+#ifndef NDEBUG
+  validationLayering->checkValidationLayerSupport();
+#endif
 
   VkApplicationInfo appInfo{};
   VkInstanceCreateInfo createInfo{};
@@ -95,13 +57,13 @@ void TetrisTheFunWay::createInstance() {
   createInfo.enabledExtensionCount = glfwExtensionCount;
   createInfo.ppEnabledExtensionNames = glfwExtensions;
 
-  if (ENABLE_VALIDATION_LAYERS) {
-    createInfo.enabledLayerCount =
-        static_cast<uint32_t>(validationLayers.size());
-    createInfo.ppEnabledLayerNames = validationLayers.data();
-  } else {
-    createInfo.enabledLayerCount = 0;
-  }
+#ifdef NDEBUG
+  createInfo.enabledLayerCount = 0;
+#else
+  createInfo.enabledLayerCount =
+      static_cast<uint32_t>(validationLayering->currValidationLayers.size());
+  createInfo.ppEnabledLayerNames = validationLayering->currValidationLayers.data();
+#endif
 
   VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
 
