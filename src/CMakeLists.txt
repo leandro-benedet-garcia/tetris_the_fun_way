@@ -1,4 +1,7 @@
-add_executable(FUNTetris tetris_the_fun_way.cpp validation_layering.cpp)
+add_executable(FUNTetris
+  tetris_the_fun_way.cpp
+  validation_layering.cpp
+  devices.cpp)
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
