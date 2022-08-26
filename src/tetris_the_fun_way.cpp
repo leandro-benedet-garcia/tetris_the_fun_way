@@ -1,5 +1,4 @@
 #define GLFW_INCLUDE_VULKAN
-
 #include <GLFW/glfw3.h>
 
 #include <cstdlib>
@@ -29,9 +28,12 @@ public:
 
 private:
   GLFWwindow *window;
+  VkSurfaceKHR surface;
+
   VkInstance instance;
 
   Devices *devices;
+  VkQueue presentQueue;
 
   const uint16_t WIDTH = 800;
   const uint16_t HEIGHT = 600;
@@ -42,7 +44,6 @@ private:
 
   const uint32_t GAME_VERSION = VK_MAKE_VERSION(0, 0, 1);
   const uint32_t ENGINE_VERSION = VK_MAKE_VERSION(0, 0, 1);
-
 
 #ifdef NDEBUG
   const bool ENABLE_VALIDATION_LAYERS = false;
@@ -68,8 +69,17 @@ private:
 #ifndef NDEBUG
     validationLayering->setupDebugMessenger(instance);
 #endif
+    createSurface();
     devices->pickPhysicalDevice(instance);
     devices->createLogicalDevice();
+  }
+
+  void createSurface() {
+    if (glfwCreateWindowSurface(instance, window, nullptr, &surface) !=
+        VK_SUCCESS) {
+      throw std::runtime_error("failed to create window surface!");
+    }
+    devices->setSurface(surface);
   }
 
   void createInstance() {
@@ -138,9 +148,10 @@ private:
 #ifndef NDEBUG
     validationLayering->DestroyDebugUtilsMessengerEXT(instance, nullptr);
 #endif
-    vkDestroyInstance(instance, nullptr);
 
     glfwDestroyWindow(window);
+    vkDestroySurfaceKHR(instance, surface, nullptr);
+    vkDestroyInstance(instance, nullptr);
 
     glfwTerminate();
   }

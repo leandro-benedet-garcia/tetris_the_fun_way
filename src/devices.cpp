@@ -89,6 +89,8 @@ bool Devices::isDeviceSuitable(VkPhysicalDevice device) {
   return indices.graphicsFamily.has_value();
 }
 
+void Devices::setSurface(VkSurfaceKHR surface) { this->surface = surface; }
+
 QueueFamilyIndices Devices::findQueueFamilies(VkPhysicalDevice device) {
   QueueFamilyIndices indices;
   uint32_t queueFamilyCount = 0;
@@ -100,8 +102,15 @@ QueueFamilyIndices Devices::findQueueFamilies(VkPhysicalDevice device) {
 
   int i = 0;
   for (const auto &queueFamily : queueFamilies) {
+    VkBool32 presentSupport = false;
+    vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
+
     if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
       indices.graphicsFamily = i;
+    }
+
+    if (presentSupport) {
+      indices.presentFamily = i;
     }
 
     i++;
