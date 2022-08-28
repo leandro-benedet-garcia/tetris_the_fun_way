@@ -66,6 +66,9 @@ private:
   VkFormat swapChainImageFormat;
   VkExtent2D swapChainExtent;
 
+  std::vector<VkImageView> swapChainImageViews;
+
+
   bool checkDeviceExtensionSupport(VkPhysicalDevice device);
   VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities);
 
@@ -79,5 +82,6 @@ private:
   bool isDeviceSuitable(VkPhysicalDevice device);
   QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
   SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
+  void createImageViews();
 };
 #endif
