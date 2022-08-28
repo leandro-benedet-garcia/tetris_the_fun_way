@@ -10,6 +10,7 @@
 #endif
 
 #include "headers/devices.hpp"
+#include "headers/graphics_pipeline.hpp"
 
 class TetrisTheFunWay {
 public:
