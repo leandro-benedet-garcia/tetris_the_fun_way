@@ -17,8 +17,8 @@ public:
 #ifndef NDEBUG
     validationLayering = new ValidationLayering(validationLayers);
 #endif
-    devices = new Devices();
   }
+
   void run() {
     initWindow();
     initVulkan();
@@ -33,7 +33,6 @@ private:
   VkInstance instance;
 
   Devices *devices;
-  VkQueue presentQueue;
 
   const uint16_t WIDTH = 800;
   const uint16_t HEIGHT = 600;
@@ -70,8 +69,7 @@ private:
     validationLayering->setupDebugMessenger(instance);
 #endif
     createSurface();
-    devices->pickPhysicalDevice(instance);
-    devices->createLogicalDevice();
+    devices = new Devices(&instance, &validationLayers, &surface, window);
   }
 
   void createSurface() {
@@ -79,7 +77,6 @@ private:
         VK_SUCCESS) {
       throw std::runtime_error("failed to create window surface!");
     }
-    devices->setSurface(surface);
   }
 
   void createInstance() {
@@ -150,11 +147,12 @@ private:
 #endif
 
     glfwDestroyWindow(window);
-    vkDestroySurfaceKHR(instance, surface, nullptr);
     vkDestroyInstance(instance, nullptr);
 
     glfwTerminate();
   }
+
+
 };
 
 int main() {
