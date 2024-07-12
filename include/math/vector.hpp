@@ -13,10 +13,10 @@ private:
 public:
   const size_t SIZE = vec_size;
 
-  T values[vec_size];
+  T vec_values[vec_size];
   T operator[](int index);
 
-  Vector<T, vec_size>(T values[vec_size]);
+  Vector(T values[vec_size]);
 
   /// multiply elements one by one
   T pi_notation();
