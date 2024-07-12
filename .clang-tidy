@@ -1,0 +1,3 @@
+HeaderFileExtensions: ['hpp']
+ImplementationFileExtensions: ['cpp']
+Checks: 'bugprone-*'

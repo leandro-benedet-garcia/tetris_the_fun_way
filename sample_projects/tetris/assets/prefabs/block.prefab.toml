@@ -1,0 +1,7 @@
+id = 0
+type = "rect"
+pivot = [0, 0]
+transform = [1, 0, 0, 0, 1, 0, 0, 0, 1]
+texture = 0
+width = 128
+height = 128

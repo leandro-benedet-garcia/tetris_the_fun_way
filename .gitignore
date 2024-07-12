@@ -1,3 +1,4 @@
+builddir/
 build/
 
 # ide
@@ -6,3 +7,11 @@ build/
 
 # cache
 .cache
+.ipynb_checkpoints/*
+
+# subprojects
+subprojects/packagecache/
+subprojects/tomlplusplus-*
+subprojects/Vulkan-Headers-*
+subprojects/pybind11-*
+general-testing.ipynb

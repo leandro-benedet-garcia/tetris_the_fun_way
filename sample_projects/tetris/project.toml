@@ -1,0 +1,7 @@
+[amet]
+min_version = "0.1.0"
+max_version = "1"
+
+[amet.project]
+main_scene = "scenes/main.scene.toml"
+project_name = "Simple Tetris"
