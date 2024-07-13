@@ -1,11 +1,15 @@
 project(
   'fun_engine',
   'cpp',
-  'cython',
   version: '0.1.0',
   default_options: ['cpp_std=c++23'],
 )
 add_global_arguments(['-fPIC', '-Wall'], language: 'cpp')
+
+sources = [
+  'src/math/vector.cpp',
+  'src/math/vector2.cpp',
+]
 
 conf_data = configuration_data()
 conf_data.set('version', meson.project_version())
@@ -20,12 +24,9 @@ pybind11_dep = dependency('pybind11')
 
 inc = include_directories(['include', '.'])
 
-lib = shared_library(
+lib = library(
   'funengine',
-  [
-    'src/math/vector.cpp',
-    'src/math/vector2.cpp',
-  ],
+  sources,
   # dependencies: deps,
   version: package_ver,
   include_directories: inc,
@@ -33,12 +34,12 @@ lib = shared_library(
 
 py_lib = py_install.extension_module(
   'funenginepy',
-  [
+  sources + [
     'python_module/vector2.cpp',
   ],
   install: true,
-  dependencies: [pybind11_dep],
   link_with: lib,
+  dependencies: [pybind11_dep],
   include_directories: inc,
 )
 
