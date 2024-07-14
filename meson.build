@@ -4,11 +4,21 @@ project(
   version: '0.1.0',
   default_options: ['cpp_std=c++23'],
 )
-add_global_arguments(['-fPIC', '-Wall'], language: 'cpp')
+
+add_global_arguments(
+  [
+    '-fPIC',
+    '-Wall',
+    '-fmax-errors=0',
+    '-Wfatal-errors',
+    '-D_GLIBCXX_USE_CXX11_ABI=0',
+  ],
+  language: 'cpp',
+)
 
 sources = [
   'src/math/vector.cpp',
-  'src/math/vector2.cpp',
+  'src/engine_object.cpp',
 ]
 
 conf_data = configuration_data()
@@ -24,7 +34,7 @@ pybind11_dep = dependency('pybind11')
 
 inc = include_directories(['include', '.'])
 
-lib = library(
+lib = shared_library(
   'funengine',
   sources,
   # dependencies: deps,
@@ -34,12 +44,19 @@ lib = library(
 
 py_lib = py_install.extension_module(
   'funenginepy',
-  sources + [
-    'python_module/vector2.cpp',
+  sources: [
+    'python_module/module.cpp',
   ],
   install: true,
   link_with: lib,
-  dependencies: [pybind11_dep],
+  dependencies: [pybind11_dep, py_install.dependency(embed: true)],
+  include_directories: inc,
+)
+
+executable(
+  'funengine',
+  ['src/main.cpp'],
+  link_with: lib,
   include_directories: inc,
 )
 

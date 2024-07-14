@@ -1,22 +1,22 @@
-#ifndef OBJECT_HPP
-#define OBJECT_HPP
+#ifndef ENGINE_OBJECT_HPP
+#define ENGINE_OBJECT_HPP
 #include <string>
-#include <vector>
-
-using namespace std;
+#include <unordered_set>
 
 namespace FunEngine {
 class EngineObject {
 private:
-  static vector<int> used_ids;
-  static int last_id;
+  static std::unordered_set<int> used_instanced_ids;
+  static std::unordered_set<int> used_prefab_ids;
+  static int last_instance_id;
 
 public:
-  int id;
-  string name;
+  int id = 0;
+  int prefab_id = 0;
 
-  EngineObject(string name);
-  static int get_next_id();
+  std::string name;
+
+  EngineObject(const std::string &obj_name);
 };
 } // namespace FunEngine
 #endif

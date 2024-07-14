@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "object.hpp"
+#include "engine_object.hpp"
 
 using namespace std;
 
@@ -12,8 +12,6 @@ class GameObject: EngineObject {
 public:
   GameObject *parent;
   vector<GameObject> children;
-
-  GameObject get_children();
 };
 } // namespace FunEngine
 #endif
