@@ -5,7 +5,8 @@
 
 using namespace std;
 
-namespace FunEngine::Math {
+namespace FunEngine {
+namespace Math {
 
 template <typename T> T Vector<T>::magnitude(T values[]) {
   T curr_sum = 0;
@@ -33,4 +34,5 @@ template <typename T> T Vector<T>::angle_to(const Vector<T> *other) {
   T magnitudes = magnitude() * other->magnitude();
   return acos(sums / magnitudes);
 }
-} // namespace FunEngine::Math
+} // namespace Math
+} // namespace FunEngine

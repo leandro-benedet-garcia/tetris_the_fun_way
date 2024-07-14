@@ -5,7 +5,8 @@
 
 #include "./constants.hpp"
 
-namespace FunEngine::Math {
+namespace FunEngine {
+namespace Math {
 template <typename T = __precision> class Vector {
 public:
   /// multiply elements one by one
@@ -15,5 +16,6 @@ public:
 
   static T angle_to(const Vector<T> *other);
 };
-} // namespace FunEngine::Math
+} // namespace Math
+} // namespace FunEngine
 #endif

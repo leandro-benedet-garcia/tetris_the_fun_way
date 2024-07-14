@@ -2,14 +2,12 @@ project(
   'fun_engine',
   'cpp',
   version: '0.1.0',
-  default_options: ['cpp_std=c++23'],
+  default_options: ['cpp_std=c++23', 'warning_level=3'],
 )
 
 add_global_arguments(
   [
     '-fPIC',
-    '-Wall',
-    '-fmax-errors=0',
     '-Wfatal-errors',
     '-D_GLIBCXX_USE_CXX11_ABI=0',
   ],
@@ -41,6 +39,7 @@ lib = shared_library(
   version: package_ver,
   include_directories: inc,
 )
+lib_deps = declare_dependency(include_directories: inc, link_with: lib)
 
 py_lib = py_install.extension_module(
   'funenginepy',
@@ -56,8 +55,8 @@ py_lib = py_install.extension_module(
 executable(
   'funengine',
   ['src/main.cpp'],
-  link_with: lib,
-  include_directories: inc,
+  install: true,
+  dependencies: lib_deps,
 )
 
 import('pkgconfig').generate(
