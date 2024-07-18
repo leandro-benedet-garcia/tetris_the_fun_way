@@ -10,4 +10,6 @@
 #define __precision float
 #endif
 
+/// Speed of Light in vacuum in meters per second
+#define LIGHT_SPEED 299792458
 #endif

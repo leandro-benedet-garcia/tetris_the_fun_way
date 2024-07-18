@@ -5,17 +5,25 @@ project(
   default_options: ['cpp_std=c++23', 'warning_level=3'],
 )
 
+build_python_module = get_option('python_module')
+
 add_global_arguments(
   [
     '-fPIC',
     '-Wfatal-errors',
-    '-D_GLIBCXX_USE_CXX11_ABI=0',
+    '-mavx',
+    '-mavx2',
+    '-msse2',
+    '-msse3',
+    '-msse4.1',
+    '-msse4.2',
   ],
   language: 'cpp',
 )
 
 sources = [
-  'src/math/vector.cpp',
+  'src/math/vector2.cpp',
+  'src/math/vector3.cpp',
   'src/engine_object.cpp',
 ]
 
@@ -24,11 +32,6 @@ conf_data.set('version', meson.project_version())
 package_ver = conf_data.get('version')
 
 configure_file(input: 'config.h.in', output: 'config.h', configuration: conf_data)
-
-py_install = import('python').find_installation(pure: false)
-
-pybind11_dep = dependency('pybind11')
-# tomlplusplus = dependency('tomlplusplus')
 
 inc = include_directories(['include', '.'])
 
@@ -40,17 +43,24 @@ lib = shared_library(
   include_directories: inc,
 )
 lib_deps = declare_dependency(include_directories: inc, link_with: lib)
+# tomlplusplus = dependency('tomlplusplus')
 
-py_lib = py_install.extension_module(
-  'funenginepy',
-  sources: [
-    'python_module/module.cpp',
-  ],
-  install: true,
-  link_with: lib,
-  dependencies: [pybind11_dep, py_install.dependency(embed: true)],
-  include_directories: inc,
-)
+if build_python_module
+  py_install = import('python').find_installation(pure: false)
+
+  pybind11_dep = dependency('pybind11')
+
+  py_lib = py_install.extension_module(
+    'funenginepy',
+    sources: [
+      'python_module/module.cpp',
+    ],
+    install: true,
+    link_with: lib,
+    dependencies: [pybind11_dep, py_install.dependency(embed: true)],
+    include_directories: inc,
+  )
+endif
 
 executable(
   'funengine',
