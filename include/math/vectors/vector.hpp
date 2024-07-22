@@ -27,7 +27,7 @@ public:
   T &operator[](size_t idx) { return values[idx]; }
 
   bool operator==(Vector<T, SIZE> other) {
-    if (typeid(T) == typeid(int))
+    if (typeid(T) != typeid(int))
       throw std::logic_error("You can only compare vectors of type int, for "
                              "other types use approximately");
     for (size_t i; i < SIZE; i++)
