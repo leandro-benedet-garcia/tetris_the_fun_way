@@ -22,8 +22,8 @@ add_global_arguments(
 )
 
 sources = [
-  'src/math/vector2.cpp',
-  'src/math/vector3.cpp',
+  'src/math/vectors/vector2.cpp',
+  'src/math/vectors/vector3.cpp',
   'src/engine_object.cpp',
 ]
 

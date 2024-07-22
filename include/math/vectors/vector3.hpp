@@ -1,6 +1,6 @@
 #ifndef VECTOR3_HPP
 #define VECTOR3_HPP
-#include "constants.hpp"
+#include "../constants.hpp"
 #include "vector.hpp"
 
 namespace FunEngine::Math {

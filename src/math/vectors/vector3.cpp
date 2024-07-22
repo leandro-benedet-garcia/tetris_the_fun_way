@@ -1,4 +1,4 @@
-#include "math/vector3.hpp"
+#include "math/vectors/vector3.hpp"
 
 namespace FunEngine::Math {
 

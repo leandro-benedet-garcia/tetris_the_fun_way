@@ -1,13 +1,18 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
+#include "../constants.hpp"
+#include "../utils.hpp"
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <cstddef>
 #include <initializer_list>
+#include <stdexcept>
+#include <typeinfo>
 #include <vector>
 
 namespace FunEngine::Math {
-template <typename T = float, size_t SIZE = 1> class Vector {
+template <typename T = __precision, size_t SIZE = 1> class Vector {
 public:
   std::array<T, SIZE> values;
 
@@ -20,6 +25,16 @@ public:
   }
 
   T &operator[](size_t idx) { return values[idx]; }
+
+  bool operator==(Vector<T, SIZE> other) {
+    if (typeid(T) == typeid(int))
+      throw std::logic_error("You can only compare vectors of type int, for "
+                             "other types use approximately");
+    for (size_t i; i < SIZE; i++)
+      if (values[i] != other[i])
+        return false;
+    return true;
+  }
 
   /// multiply elements one by one
   T pi_notation() {
@@ -47,6 +62,18 @@ public:
     T sums = this->pi_notation() + to.pi_notation();
     T magnitudes = this->magnitude() * to.magnitude();
     return acos(sums / magnitudes);
+  }
+
+  bool approximately(Vector<T, SIZE> other,
+                     T tolerance = std::numeric_limits<T>::epsilon()) {
+    if (typeid(T) == typeid(int)) {
+      return this == other;
+    } else {
+      for (size_t i; i < SIZE; i++)
+        if (!FunEngine::Math::approximately<T>(values[i], other[i], tolerance))
+          return false;
+    }
+    return true;
   }
 };
 } // namespace FunEngine::Math

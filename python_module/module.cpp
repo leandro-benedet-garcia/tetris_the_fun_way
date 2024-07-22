@@ -2,8 +2,8 @@
 #include <pybind11/stl.h>
 
 #include "engine_object.hpp"
-#include "math/vector2.hpp"
-#include "math/vector3.hpp"
+#include "math/vectors/vector2.hpp"
+#include "math/vectors/vector3.hpp"
 
 namespace py = pybind11;
 namespace fun = FunEngine;
@@ -14,10 +14,10 @@ void declare_vector2(py::module &m, const std::string &type_name) {
   using Class = math::Vector2<T>;
   std::string pyclass_name = "Vector2" + type_name;
   py::class_<Class>(m, pyclass_name.c_str())
-    .def(py::init<T &, T &>())
-    .def("angle", &Class::angle)
-    .def("angle_to", &Class::angle_to)
-    .def("magnitude", &Class::magnitude);
+      .def(py::init<T &, T &>())
+      .def("angle", &Class::angle)
+      .def("angle_to", &Class::angle_to)
+      .def("magnitude", &Class::magnitude);
 }
 
 template <typename T>
@@ -25,9 +25,9 @@ void declare_vector3(py::module &m, const std::string &type_name) {
   using Class = math::Vector3<T>;
   std::string pyclass_name = "Vector3" + type_name;
   py::class_<Class>(m, pyclass_name.c_str())
-    .def(py::init<T &, T &, T &>())
-    .def("angle_to", &Class::angle_to)
-    .def("magnitude", &Class::magnitude);
+      .def(py::init<T &, T &, T &>())
+      .def("angle_to", &Class::angle_to)
+      .def("magnitude", &Class::magnitude);
 }
 
 PYBIND11_MODULE(funenginepy, m) {
@@ -35,6 +35,16 @@ PYBIND11_MODULE(funenginepy, m) {
       .def(py::init<const std::string &>());
 
   auto math_module = m.def_submodule("math");
+
+  math_module
+      .def("approximately", &math::approximately<float>,
+           "Compare two floating points together", py::arg("left"),
+           py::arg("right"),
+           py::arg("tolerance") = std::numeric_limits<float>::epsilon())
+      .def("approximately", &math::approximately<double>,
+           "Compare two floating points together", py::arg("left"),
+           py::arg("right"),
+           py::arg("tolerance") = std::numeric_limits<double>::epsilon());
 
   declare_vector2<float>(math_module, "Float");
   declare_vector2<double>(math_module, "");

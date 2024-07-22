@@ -1,6 +1,6 @@
 #ifndef VECTOR2_HPP
 #define VECTOR2_HPP
-#include "constants.hpp"
+#include "../constants.hpp"
 #include "vector.hpp"
 #include <cmath>
 #include <immintrin.h>
