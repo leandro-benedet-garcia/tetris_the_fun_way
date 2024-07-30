@@ -1,23 +1,25 @@
-#ifndef VECTOR2_HPP
-#define VECTOR2_HPP
-#include "../constants.hpp"
-#include "vector.hpp"
+#pragma once
+
+#include "./vector.hpp"
 #include <cmath>
 #include <immintrin.h>
 
 namespace FunEngine::Math {
-template <typename T = __precision> class Vector2 final : public Vector<T, 2> {
+template <Numeric TYPE = floating_type>
+class Vector2 final : public Vector<TYPE, 2> {
 public:
-  using Vector<T, 2>::Vector;
-  Vector2(T x_axis, T y_axis) : Vector<T, 2>({x_axis, y_axis}) {}
+  TYPE *x_axis = &this->values[0];
+  TYPE *y_axis = &this->values[1];
 
-  T get_x() { return this->values[0]; }
-  T get_y() { return this->values[1]; }
+  using Vector<TYPE, 2>::Vector;
+  Vector2(TYPE x_axis, TYPE y_axis) : Vector<TYPE, 2>({x_axis, y_axis}) {}
 
-  void set_x(T value) { this->values[0] = value; }
-  void set_y(T value) { this->values[1] = value; }
+  TYPE get_x() { return this->values[0]; }
+  TYPE get_y() { return this->values[1]; }
 
-  T angle() { return atan2(this->values[1], this->values[0]); }
+  void set_x(TYPE value) { this->values[0] = value; }
+  void set_y(TYPE value) { this->values[1] = value; }
+
+  floating_type angle() { return atan2(this->values[1], this->values[0]); }
 };
 } // namespace FunEngine::Math
-#endif

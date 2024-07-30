@@ -1,5 +1,4 @@
-#ifndef TEXT_FILE_HPP
-#define TEXT_FILE_HPP
+#pragma once
 
 #include <fstream>
 
@@ -15,4 +14,3 @@ public:
   string get_full_file();
 };
 }; // namespace FunEngine
-#endif

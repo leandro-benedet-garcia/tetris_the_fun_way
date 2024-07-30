@@ -1,9 +1,7 @@
-#ifndef SCENE_HPP
-#define SCENE_HPP
+#pragma once
 
-#include "game_object.hpp"
+#include "game_objects/game_object.hpp"
 
-using namespace std;
 
 namespace FunEngine {
 class Scene {
@@ -12,4 +10,3 @@ public:
   vector<GameObject> game_objects;
 };
 } // namespace FunEngine
-#endif

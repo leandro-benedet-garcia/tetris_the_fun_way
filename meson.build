@@ -2,15 +2,26 @@ project(
   'fun_engine',
   'cpp',
   version: '0.1.0',
-  default_options: ['cpp_std=c++23', 'warning_level=3'],
+  default_options: ['warning_level=3'],
 )
 
+if host_machine.system() == 'emscripten'
+  add_global_arguments('-std=c++20', language: 'cpp')
+else
+  add_global_arguments('-std=c++23', language: 'cpp')
+endif
+
+compiler = meson.get_compiler('cpp')
 build_python_module = get_option('python_module')
 
 add_global_arguments(
   [
     '-fPIC',
+    '-Wno-gnu-anonymous-struct',
     '-Wfatal-errors',
+    '-fno-fast-math',
+    '-fno-unsafe-math-optimizations',
+    '-Ofast',
     '-mavx',
     '-mavx2',
     '-msse2',
@@ -20,11 +31,25 @@ add_global_arguments(
   ],
   language: 'cpp',
 )
+if compiler.get_id() == 'clang'
+  add_global_arguments(
+    [
+      '-fdenormal-fp-math=ieee',
+    ],
+    language: 'cpp',
+  )
+elif compiler.get_id() == 'gcc'
+  add_global_arguments(
+    [
+      '-ffloat-store',
+    ],
+    language: 'cpp',
+  )
+endif
 
 sources = [
-  'src/math/vectors/vector2.cpp',
-  'src/math/vectors/vector3.cpp',
   'src/engine_object.cpp',
+  'src/game_objects/game_object3d.cpp',
 ]
 
 conf_data = configuration_data()
@@ -35,7 +60,7 @@ configure_file(input: 'config.h.in', output: 'config.h', configuration: conf_dat
 
 inc = include_directories(['include', '.'])
 
-lib = shared_library(
+lib = library(
   'funengine',
   sources,
   # dependencies: deps,
@@ -46,9 +71,9 @@ lib_deps = declare_dependency(include_directories: inc, link_with: lib)
 # tomlplusplus = dependency('tomlplusplus')
 
 if build_python_module
-  py_install = import('python').find_installation(pure: false)
+  py_install = import('python').find_installation()
 
-  pybind11_dep = dependency('pybind11')
+  pybind11_dep = dependency('pybind11', required: true)
 
   py_lib = py_install.extension_module(
     'funenginepy',
@@ -57,7 +82,7 @@ if build_python_module
     ],
     install: true,
     link_with: lib,
-    dependencies: [pybind11_dep, py_install.dependency(embed: true)],
+    dependencies: pybind11_dep,
     include_directories: inc,
   )
 endif

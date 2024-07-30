@@ -1,5 +1,4 @@
-#ifndef GAME_OBJECT_HPP
-#define GAME_OBJECT_HPP
+#pragma once
 
 #include <vector>
 
@@ -12,6 +11,7 @@ class GameObject: EngineObject {
 public:
   GameObject *parent;
   vector<GameObject> children;
+
+  GameObject get_child(size_t index);
 };
 } // namespace FunEngine
-#endif

@@ -2,6 +2,8 @@
 #include <iostream>
 
 int main() {
-  FunEngine::Math::Vector3<double> vec(10.0, 10.0, 10.0);
-  std::cout << vec.magnitude() << "\n";
+  FunEngine::Math::Vector3<double> vector{10, 10, 10};
+  auto mag = vector.magnitude();
+  std::cout << mag << "\n";
+  return 0;
 }

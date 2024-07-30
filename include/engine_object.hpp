@@ -1,5 +1,4 @@
-#ifndef ENGINE_OBJECT_HPP
-#define ENGINE_OBJECT_HPP
+#pragma once
 #include <string>
 #include <unordered_set>
 
@@ -19,4 +18,3 @@ public:
   EngineObject(const std::string &obj_name);
 };
 } // namespace FunEngine
-#endif
