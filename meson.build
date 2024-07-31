@@ -6,31 +6,30 @@ project(
 )
 
 if host_machine.system() == 'emscripten'
-  add_global_arguments('-std=c++20', language: 'cpp')
+  add_global_arguments(['-msimd128', '-std=c++20'], language: 'cpp')
 else
-  add_global_arguments('-std=c++23', language: 'cpp')
+  add_global_arguments(
+    [
+      '-std=c++23',
+      '-fPIC',
+      '-Wno-gnu-anonymous-struct',
+      '-Wfatal-errors',
+      '-fno-fast-math',
+      '-fno-unsafe-math-optimizations',
+      '-mavx',
+      '-mavx2',
+      '-msse2',
+      '-msse3',
+      '-msse4.1',
+      '-msse4.2',
+    ],
+    language: 'cpp',
+  )
 endif
 
 compiler = meson.get_compiler('cpp')
 build_python_module = get_option('python_module')
 
-add_global_arguments(
-  [
-    '-fPIC',
-    '-Wno-gnu-anonymous-struct',
-    '-Wfatal-errors',
-    '-fno-fast-math',
-    '-fno-unsafe-math-optimizations',
-    '-Ofast',
-    '-mavx',
-    '-mavx2',
-    '-msse2',
-    '-msse3',
-    '-msse4.1',
-    '-msse4.2',
-  ],
-  language: 'cpp',
-)
 if compiler.get_id() == 'clang'
   add_global_arguments(
     [
@@ -60,11 +59,10 @@ configure_file(input: 'config.h.in', output: 'config.h', configuration: conf_dat
 
 inc = include_directories(['include', '.'])
 
-lib = library(
+lib = static_library(
   'funengine',
   sources,
   # dependencies: deps,
-  version: package_ver,
   include_directories: inc,
 )
 lib_deps = declare_dependency(include_directories: inc, link_with: lib)
@@ -73,7 +71,8 @@ lib_deps = declare_dependency(include_directories: inc, link_with: lib)
 if build_python_module
   py_install = import('python').find_installation()
 
-  pybind11_dep = dependency('pybind11', required: true)
+  pybind11_dep = dependency('pybind11')
+
 
   py_lib = py_install.extension_module(
     'funenginepy',

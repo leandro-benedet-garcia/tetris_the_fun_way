@@ -1,0 +1,13 @@
+package:
+  name: funengine
+  version: 0.1.0
+
+source:
+  path: ../..
+
+build:
+  backend-flags: |
+    setup-args=--cross-file=${MESON_CROSS_FILE}
+  cflags: |
+    -Wno-return-type
+  cross-build-env: true

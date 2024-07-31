@@ -1,5 +1,9 @@
 builddir/
+wasmbuild/
 build/
+
+#logs
+*.log
 
 # ide
 .vscode/
