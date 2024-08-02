@@ -4,7 +4,7 @@
 #include <typeinfo>
 
 namespace FunEngine::Math {
-template <typename TYPE = floating_type>
+template <typename TYPE = double>
 class Matrix2x2 final : public Matrix<TYPE, 2, 2> {
 public:
   TYPE *a1 = &this->values[0];

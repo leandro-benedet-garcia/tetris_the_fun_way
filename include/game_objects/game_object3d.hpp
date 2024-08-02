@@ -8,9 +8,9 @@ using namespace std;
 namespace FunEngine {
 class GameObject3d : public GameObject {
 public:
-  Math::Matrix4x4<floating_type> global_position;
+  Math::Matrix4x4<double> global_position;
 
-  void set_global_position(floating_type x_axis, floating_type y_axis,
-                           floating_type z_axis);
+  void set_global_position(double x_axis, double y_axis,
+                           double z_axis);
 };
 } // namespace FunEngine

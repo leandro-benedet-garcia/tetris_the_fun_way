@@ -1,13 +1,4 @@
 #pragma once
-/// \def floating_type
-/// Can be either a float or double depending on the arguments used to compile
-/// the engine
-#ifdef arg_double_precision
-#define floating_type double
-#else
-#define floating_type float
-#endif
-
 #define int_id typeid(int)
 #define float_id typeid(float)
 #define double_id typeid(double)

@@ -3,7 +3,7 @@
 #include "matrix.hpp"
 
 namespace FunEngine::Math {
-template <typename TYPE = floating_type>
+template <typename TYPE = double>
 class Matrix3x3 final : public Matrix<TYPE, 3, 3> {
 public:
   TYPE *a1 = *this[0, 0];

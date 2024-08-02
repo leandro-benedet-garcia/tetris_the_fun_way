@@ -1,0 +1,26 @@
+name: 'General Testing'
+on:
+  - push
+  - pull_request
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  test_wasm:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.3"
+          cache: "pip"
+      - run: pip install pyodide-build>=0.23.0 pytest
+      - run: echo "EMSCRIPTEN_VERSION=$(pyodide config get emscripten_version)" >> $GITHUB_ENV
+      - uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: ${{ env.EMSCRIPTEN_VERSION }}
+      - run: pyodide build
+      - run: pip install $(ls dist)
+

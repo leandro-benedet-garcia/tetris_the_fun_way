@@ -3,7 +3,7 @@
 #include "./vector.hpp"
 
 namespace FunEngine::Math {
-template <typename TYPE = floating_type>
+template <typename TYPE = double>
 class Vector4 final : public Vector<TYPE, 4> {
 
 public:

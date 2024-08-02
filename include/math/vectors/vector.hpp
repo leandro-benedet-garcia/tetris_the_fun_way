@@ -3,7 +3,6 @@
 #include "../constants.hpp"
 #include "../utils.hpp"
 #include "constants.hpp"
-#include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -11,15 +10,11 @@
 #include <stdexcept>
 #include <string>
 #include <typeinfo>
-#include <vector>
 
 namespace FunEngine::Math {
-template <Numeric TYPE = floating_type, size_t SIZE = 1> class Vector {
+template <Numeric TYPE = double, size_t SIZE = 1> class Vector {
 public:
   std::array<TYPE, SIZE> values{};
-  Vector(std::vector<TYPE> vec) {
-    std::copy_n(vec.begin(), SIZE, values.begin());
-  }
 
   TYPE &operator[](size_t idx) { return values[idx]; }
 
@@ -58,8 +53,8 @@ public:
     return curr_value;
   }
 
-  FORCE_INLINE TYPE magnitude() {
-    TYPE curr_sum = 0;
+  FORCE_INLINE double magnitude() {
+    double curr_sum = 0;
 
     for (auto curr_value : values)
       curr_sum += pow(curr_value, 2);

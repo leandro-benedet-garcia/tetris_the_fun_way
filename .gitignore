@@ -1,6 +1,7 @@
 builddir/
 wasmbuild/
 build/
+dist/
 
 #logs
 *.log
@@ -8,12 +9,14 @@ build/
 # ide
 .vscode/
 .env
+.venv*/
 
 # cache
 .cache
+.pytest_cache/
 .ipynb_checkpoints/
 __pycache__/
-.pyodide-xbuildenv/
+.pyodide-xbuildenv*/
 
 # subprojects
 subprojects/packagecache/

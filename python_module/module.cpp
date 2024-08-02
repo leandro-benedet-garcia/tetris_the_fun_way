@@ -4,12 +4,13 @@
 #include "engine_object.hpp"
 #include "math/vectors/vector2.hpp"
 #include "math/vectors/vector3.hpp"
+#include "math/vectors/vector4.hpp"
 
 namespace py = pybind11;
 namespace fun = FunEngine;
 namespace math = FunEngine::Math;
 
-template <typename TYPE>
+template <math::Numeric TYPE>
 void declare_vector2(py::module &m, const std::string &type_name) {
   using Class = math::Vector2<TYPE>;
   std::string pyclass_name = "Vector2" + type_name;
@@ -21,12 +22,23 @@ void declare_vector2(py::module &m, const std::string &type_name) {
       .def("__repr__", &Class::to_string);
 }
 
-template <typename TYPE>
+template <math::Numeric TYPE>
 void declare_vector3(py::module &m, const std::string &type_name) {
   using Class = math::Vector3<TYPE>;
   std::string pyclass_name = "Vector3" + type_name;
   py::class_<Class>(m, pyclass_name.c_str())
       .def(py::init<TYPE &, TYPE &, TYPE &>())
+      .def("angle_to", &Class::angle_to)
+      .def("magnitude", &Class::magnitude)
+      .def("__repr__", &Class::to_string);
+}
+
+template <math::Numeric TYPE>
+void declare_vector4(py::module &m, const std::string &type_name) {
+  using Class = math::Vector4<TYPE>;
+  std::string pyclass_name = "Vector4" + type_name;
+  py::class_<Class>(m, pyclass_name.c_str())
+      .def(py::init<TYPE &, TYPE &, TYPE &, TYPE &>())
       .def("angle_to", &Class::angle_to)
       .def("magnitude", &Class::magnitude)
       .def("__repr__", &Class::to_string);
@@ -49,4 +61,7 @@ PYBIND11_MODULE(funenginepy, m) {
 
   declare_vector3<double>(math_module, "");
   declare_vector3<int>(math_module, "Int");
+
+  declare_vector4<double>(math_module, "");
+  declare_vector4<int>(math_module, "Int");
 }

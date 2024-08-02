@@ -9,7 +9,7 @@
 #define ParentMatrix Matrix<TYPE, SIZE_X, SIZE_Y>
 
 namespace FunEngine::Math {
-template <typename TYPE = floating_type, size_t SIZE_X = 2, size_t SIZE_Y = 2>
+template <typename TYPE = double, size_t SIZE_X = 2, size_t SIZE_Y = 2>
 class Matrix {
 public:
   std ::array<TYPE, SIZE_X * SIZE_Y> values{};

@@ -1,5 +1,7 @@
+#pragma once
+
 #include <type_traits>
 namespace FunEngine::Math {
-template <class T>
-concept Numeric = std::is_arithmetic_v<T>;
+template <class TYPE>
+concept Numeric = std::is_arithmetic_v<TYPE>;
 }

@@ -5,7 +5,7 @@
 #include <immintrin.h>
 
 namespace FunEngine::Math {
-template <Numeric TYPE = floating_type>
+template <Numeric TYPE = double>
 class Vector2 final : public Vector<TYPE, 2> {
 public:
   TYPE *x_axis = &this->values[0];
@@ -20,6 +20,6 @@ public:
   void set_x(TYPE value) { this->values[0] = value; }
   void set_y(TYPE value) { this->values[1] = value; }
 
-  floating_type angle() { return atan2(this->values[1], this->values[0]); }
+  double angle() { return atan2(this->values[1], this->values[0]); }
 };
 } // namespace FunEngine::Math

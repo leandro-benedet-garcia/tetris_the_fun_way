@@ -4,7 +4,7 @@
 #include "matrix.hpp"
 
 namespace FunEngine::Math {
-template <typename TYPE = floating_type>
+template <typename TYPE = double>
 class Matrix4x4 final : public Matrix<TYPE, 4, 4> {
 public:
   Vector3<TYPE> get_position() {

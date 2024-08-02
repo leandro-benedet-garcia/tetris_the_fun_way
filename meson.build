@@ -73,7 +73,6 @@ if build_python_module
 
   pybind11_dep = dependency('pybind11')
 
-
   py_lib = py_install.extension_module(
     'funenginepy',
     sources: [
