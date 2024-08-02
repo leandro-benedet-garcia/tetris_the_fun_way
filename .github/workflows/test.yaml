@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   test_wasm:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -17,11 +17,13 @@ jobs:
           python-version: "3.12.3"
           cache: "pip"
       - run: |
-          pip install pyodide-build>=0.23.0 pytest
-          echo "EMSCRIPTEN_VERSION=$(pyodide config get emscripten_version)" >> $GITHUB_ENV
+          pip install pyodide-build==0.27.3
       - uses: mymindstorm/setup-emsdk@v14
         with:
-          version: ${{ env.EMSCRIPTEN_VERSION }}
+          version: 3.1.58
       - run: pyodide build
-      - run: pip install $(ls dist)
-
+      - run: |
+          pyodide venv .venv-pyodide
+          source .venv-pyodide/bin/activate
+          pip install pytest dist/$(ls dist)
+          pytest
