@@ -25,11 +25,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - uses: TheMrMilchmann/setup-msvc-dev@v3
+      - run: winget install --id=Microsoft.VisualStudio.2022.BuildTools -e
         if: matrix.os == 'windows-latest' && matrix.compiler == 'msvc'
-        with:
-          arch: x64
-          toolset: 19.29
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.py-version }}
