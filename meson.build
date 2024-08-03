@@ -2,31 +2,47 @@ project(
   'fun_engine',
   'cpp',
   version: '0.1.0',
-  default_options: ['cpp_std=c++23', 'warning_level=3'],
+  default_options: ['cpp_std=c++23,c++20', 'warning_level=3'],
+)
+compiler = meson.get_compiler('cpp')
+
+if not compiler.check_header('format')
+  error('Compiler does not have the format header available, update your compiler')
+endif
+
+add_global_arguments(
+  [
+    '-fPIC',
+    '-msse',
+    '-msse2',
+    '-msse3',
+    '-msse4.1',
+    '-msse4.2',
+  ],
+  language: 'cpp',
 )
 
 if host_machine.system() == 'emscripten'
-  add_global_arguments(['-msimd128'], language: 'cpp')
+  add_global_arguments(
+    [
+      '-msimd128',
+    ],
+    language: 'cpp',
+  )
 else
   add_global_arguments(
     [
-      '-fPIC',
+      '-mavx',
+      '-mavx2',
       '-Wno-gnu-anonymous-struct',
       '-Wfatal-errors',
       '-fno-fast-math',
       '-fno-unsafe-math-optimizations',
-      '-mavx',
-      '-mavx2',
-      '-msse2',
-      '-msse3',
-      '-msse4.1',
-      '-msse4.2',
     ],
     language: 'cpp',
   )
 endif
 
-compiler = meson.get_compiler('cpp')
 build_python_module = get_option('python_module')
 
 if compiler.get_id() == 'clang'
