@@ -25,6 +25,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+      - name: Install winget
+        uses: Cyberboss/install-winget@v1
+        if: matrix.os == 'windows-latest' && matrix.compiler == 'msvc'
       - run: winget install --id=Microsoft.VisualStudio.2022.BuildTools -e
         if: matrix.os == 'windows-latest' && matrix.compiler == 'msvc'
       - uses: actions/setup-python@v5
