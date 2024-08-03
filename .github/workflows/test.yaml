@@ -29,9 +29,7 @@ jobs:
           cache: "pip"
       - run: |
           pip install pytest meson-python ninja pybind11
-          python -m pip install --config-settings builddir=builddir \
-            --no-build-isolation \
-            --editable .
+          python -m pip install --editable .
       - run: pytest
 #  test_wasm:
 #    runs-on: ubuntu-latest
