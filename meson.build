@@ -2,15 +2,14 @@ project(
   'fun_engine',
   'cpp',
   version: '0.1.0',
-  default_options: ['warning_level=3'],
+  default_options: ['cpp_std=c++23', 'warning_level=3'],
 )
 
 if host_machine.system() == 'emscripten'
-  add_global_arguments(['-msimd128', '-std=c++20'], language: 'cpp')
+  add_global_arguments(['-msimd128'], language: 'cpp')
 else
   add_global_arguments(
     [
-      '-std=c++23',
       '-fPIC',
       '-Wno-gnu-anonymous-struct',
       '-Wfatal-errors',
