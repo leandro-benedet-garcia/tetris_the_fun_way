@@ -11,25 +11,31 @@ jobs:
   x86_64:
     strategy:
       matrix:
-        include:
-          - py-version:
-              # - 3.8
-              # - 3.9
-              # - 3.10
-              # - 3.11
-              - 3.12
-          # - { os: ubuntu-latest, compiler: gcc }
-          # - { os: ubuntu-latest, compiler: clang }
-          # - { os: windows-latest, compiler: mingw64 }
-          - { os: windows-latest, compiler: clang64 }
+        py-version:
+          # - 3.8
+          # - 3.9
+          # - 3.10
+          # - 3.11
+          - 3.12
+        os:
+          - windows-latest
+          # - ubuntu-latest
+        compiler:
+          - clang
+          - gcc
     runs-on: ${{ matrix.os }}
     defaults:
       run:
         shell: bash
     steps:
       - uses: msys2/setup-msys2@v2
+        if: matrix.os == 'windows-latest' && matrix.compiler == 'gcc'
         with:
-          msystem: ${{matrix.compiler}}
+          msystem: UCRT64
+      - uses: msys2/setup-msys2@v2
+        if: matrix.os == 'windows-latest' && matrix.compiler == 'clang'
+        with:
+          msystem: CLANG64
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
