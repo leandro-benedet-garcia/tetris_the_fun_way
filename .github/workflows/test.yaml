@@ -25,37 +25,23 @@ jobs:
           - gcc
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: msys2/setup-msys2@v2
-        if: matrix.os == 'windows-latest' && matrix.compiler == 'gcc'
-        with:
-          msystem: UCRT64
-      - uses: msys2/setup-msys2@v2
-        if: matrix.os == 'windows-latest' && matrix.compiler == 'clang'
-        with:
-          msystem: CLANG64
       - uses: actions/checkout@v4
+      - run: choco upgrade mingw
+        if: matrix.os == 'windows-latest' && matrix.compiler == 'gcc'
+      - uses: actions/setup-python@v5
+        if: matrix.os == 'windows-latest'
+        with:
+          python-version: ${{ matrix.py-version }}
+          cache: "pip"
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.py-version }}
           cache: "pip"
-      - name: build windows python module
-        shell: msys2 {0}
-        if: matrix.os == 'windows-latest'
+      - name: compile
         run: |
           pip install pytest meson-python ninja pybind11
           python -m pip install --editable .
-      - name: run windows pytest
-        shell: msys2 {0}
-        if: matrix.os == 'windows-latest'
-        run: pytest
-
-      - name: compile linux
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          pip install pytest meson-python ninja pybind11
-          python -m pip install --editable .
-      - name: test linux
-        if: matrix.os == 'ubuntu-latest'
+      - name: test
         run: pytest
 
   emscripten:
