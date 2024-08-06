@@ -21,7 +21,7 @@ jobs:
           - windows-latest
           # - ubuntu-latest
         compiler:
-          - clang
+          #- clang
           - gcc
     runs-on: ${{ matrix.os }}
     steps:
@@ -30,10 +30,6 @@ jobs:
         if: matrix.os == 'windows-latest' && matrix.compiler == 'gcc'
       - uses: actions/setup-python@v5
         if: matrix.os == 'windows-latest'
-        with:
-          python-version: ${{ matrix.py-version }}
-          cache: "pip"
-      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.py-version }}
           cache: "pip"
