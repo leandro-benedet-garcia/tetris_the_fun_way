@@ -20,16 +20,22 @@ jobs:
         os:
           - windows-latest
           # - ubuntu-latest
-        compiler:
-          #- clang
-          - gcc
+        include:
+          - os: windows-latest
+            compiler: msvc
+          - os: ubuntu-latest
+            compiler: gcc
+          - os: ubuntu-latest
+            compiler: clang
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - run: choco upgrade mingw
-        if: matrix.os == 'windows-latest' && matrix.compiler == 'gcc'
-      - uses: actions/setup-python@v5
+      - uses: ilammy/msvc-dev-cmd@v1
         if: matrix.os == 'windows-latest'
+        with:
+          toolset: 16.10
+      - uses: actions/setup-python@v5
+
         with:
           python-version: ${{ matrix.py-version }}
           cache: "pip"
