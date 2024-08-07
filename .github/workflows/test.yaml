@@ -30,10 +30,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+      - name: Install Visual Studio
+        run: ./prepare-windows-build.ps1
       - uses: ilammy/msvc-dev-cmd@v1
         if: matrix.os == 'windows-latest'
         with:
-          toolset: 16.10
+          toolset: 10.0.17763
       - uses: actions/setup-python@v5
 
         with:
