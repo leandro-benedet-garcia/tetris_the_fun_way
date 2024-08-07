@@ -35,9 +35,8 @@ jobs:
       - uses: ilammy/msvc-dev-cmd@v1
         if: matrix.os == 'windows-latest'
         with:
-          toolset: 10.0.17763
+          sdk: 10.20348
       - uses: actions/setup-python@v5
-
         with:
           python-version: ${{ matrix.py-version }}
           cache: "pip"
