@@ -32,10 +32,6 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install Visual Studio
         run: ./prepare-windows-build.ps1
-      - uses: ilammy/msvc-dev-cmd@v1
-        if: matrix.os == 'windows-latest'
-        with:
-          sdk: 10.20348
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.py-version }}
