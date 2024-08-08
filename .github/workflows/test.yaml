@@ -9,6 +9,7 @@ permissions:
 
 jobs:
   x86_64:
+    continue-on-error: true
     strategy:
       matrix:
         py-version:

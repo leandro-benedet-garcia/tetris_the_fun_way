@@ -4,6 +4,10 @@ project(
   version: '0.1.0',
   default_options: ['cpp_std=c++23,c++20', 'warning_level=3'],
 )
+
+build_python_module = get_option('python_module')
+build_executable = get_option('executable')
+
 compiler = meson.get_compiler('cpp')
 
 if not compiler.check_header('format')
@@ -38,8 +42,6 @@ else
     language: 'cpp',
   )
 endif
-
-build_python_module = get_option('python_module')
 
 if compiler.get_id() != 'msvc'
   add_global_arguments(
@@ -108,16 +110,6 @@ if build_python_module
   )
 endif
 
-executable(
-  'funengine',
-  ['src/main.cpp'],
-  install: true,
-  dependencies: lib_deps,
-)
-
-import('pkgconfig').generate(
-  libraries: lib,
-  version: '0.1.0',
-  name: 'libfunengine',
-  description: 'A game engine',
-)
+if build_executable
+  executable('funengine', ['src/main.cpp'], install: true, link_with: lib)
+endif
