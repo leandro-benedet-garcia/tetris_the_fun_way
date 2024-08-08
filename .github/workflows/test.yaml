@@ -17,16 +17,15 @@ jobs:
           - "3.10"
           - "3.11"
           - "3.12"
+        compiler:
+          - gcc
+          - clang
         os:
           - windows-latest
           - ubuntu-latest
         include:
           - os: windows-latest
             compiler: msvc
-          - os: ubuntu-latest
-            compiler: gcc
-          - os: ubuntu-latest
-            compiler: clang
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
