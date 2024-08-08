@@ -9,7 +9,6 @@ permissions:
 
 jobs:
   x86_64:
-    continue-on-error: true
     strategy:
       matrix:
         py-version:
@@ -21,25 +20,30 @@ jobs:
         os:
           - windows-latest
           - ubuntu-latest
-        compiler:
-          - gcc
-          - clang
         include:
           - os: windows-latest
             compiler: msvc
+          - os: ubuntu-latest
+            compiler: gcc
+          - os: ubuntu-latest
+            compiler: clang
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.py-version }}
+          cache: "pip"
       - name: Setup Cpp
         uses: aminya/setup-cpp@v1
         with:
           compiler: ${{ matrix.compiler }}
           vcvarsall: ${{ contains(matrix.os, 'windows') }}
           ninja: true
-          python: ${{ matrix.py-version }}
       - name: compile
         run: |
-          pip install pytest meson-python pybind11
+          pip install pytest meson-python ninja pybind11
           python -m pip install --editable .
       - name: test
         run: pytest
