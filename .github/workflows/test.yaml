@@ -12,21 +12,21 @@ jobs:
     strategy:
       matrix:
         py-version:
-          # - 3.8
-          # - 3.9
-          # - 3.10
-          # - 3.11
+          - 3.8
+          - 3.9
+          - 3.10
+          - 3.11
           - 3.12
         os:
           - windows-latest
-          # - ubuntu-latest
+          - ubuntu-latest
         include:
           - os: windows-latest
             compiler: msvc
-          #- os: ubuntu-latest
-          #  compiler: gcc
-          #- os: ubuntu-latest
-          #  compiler: clang
+          - os: ubuntu-latest
+            compiler: gcc
+          - os: ubuntu-latest
+            compiler: clang
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
