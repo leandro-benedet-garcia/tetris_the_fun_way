@@ -24,6 +24,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+      - name: Cache Tox
+        uses: actions/cache@v3
+        with:
+          path: .tox
+          key: ${{ runner.os }}-${{ matrix.compiler }}-${{ hashFiles('**/*.build') }}-${{ hashFiles('./tox.ini')}}
+          restore-keys:  ${{ runner.os }}-${{ matrix.compiler }}-${{ hashFiles('**/*.build') }}-${{ hashFiles('./tox.ini')}}
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -33,6 +39,7 @@ jobs:
             3.10
             3.11
             3.12
+          cache: "pip"
       - name: Setup Cpp
         uses: aminya/setup-cpp@v1
         with:
