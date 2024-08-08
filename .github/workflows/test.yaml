@@ -12,11 +12,11 @@ jobs:
     strategy:
       matrix:
         py-version:
-          - 3.8
-          - 3.9
-          - 3.10
-          - 3.11
-          - 3.12
+          - "3.8"
+          - "3.9"
+          - "3.10"
+          - "3.11"
+          - "3.12"
         os:
           - windows-latest
           - ubuntu-latest
@@ -52,13 +52,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: 3.12.3
+          python-version: "3.12.3"
           cache: "pip"
       - run: |
           pip install pyodide-build==0.27.3
       - uses: mymindstorm/setup-emsdk@v14
         with:
-          version: 3.1.58
+          version: "3.1.58"
       - run: pyodide build
       - run: |
           pyodide venv .venv-pyodide
