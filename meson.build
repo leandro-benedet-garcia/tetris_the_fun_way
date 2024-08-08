@@ -103,7 +103,6 @@ if build_python_module
       'python_module/module.cpp',
     ],
     install: true,
-    link_with: lib,
     dependencies: [pybind11_dep, lib_deps],
     include_directories: inc,
   )

@@ -37,11 +37,11 @@ jobs:
         uses: aminya/setup-cpp@v1
         with:
           compiler: ${{ matrix.compiler }}
-          vcvarsall: ${{ contains(matrix.compiler, 'msvc') }}
+          vcvarsall: ${{ contains(matrix.os, 'windows') }}
       - name: compile
         run: |
           pip install tox
-          tox --parallel-no-spinner
+          tox --parallel-no-spinner --develop
 
   emscripten:
     runs-on: ubuntu-latest
