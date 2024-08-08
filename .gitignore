@@ -10,13 +10,14 @@ dist/
 .vscode/
 .env
 .venv*/
+.pyodide-xbuildenv*/
+.tox/
 
 # cache
 .cache
 .pytest_cache/
 .ipynb_checkpoints/
 __pycache__/
-.pyodide-xbuildenv*/
 
 # subprojects
 subprojects/packagecache/

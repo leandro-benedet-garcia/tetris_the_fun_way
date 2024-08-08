@@ -104,7 +104,7 @@ if build_python_module
     ],
     install: true,
     link_with: lib,
-    dependencies: pybind11_dep,
+    dependencies: [pybind11_dep, lib_deps],
     include_directories: inc,
   )
 endif
@@ -112,3 +112,10 @@ endif
 if build_executable
   executable('funengine', ['src/main.cpp'], install: true, link_with: lib)
 endif
+
+import('pkgconfig').generate(
+  libraries: lib,
+  version: '0.1.0',
+  name: 'libfunengine',
+  description: 'A game engine',
+)

@@ -41,7 +41,7 @@ jobs:
       - name: compile
         run: |
           pip install tox
-          tox
+          tox --parallel-no-spinner
 
   emscripten:
     runs-on: ubuntu-latest
