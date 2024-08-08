@@ -34,9 +34,6 @@ else
     [
       '-mavx',
       '-mavx2',
-      '-Wfatal-errors',
-      '-fno-fast-math',
-      '-fno-unsafe-math-optimizations',
     ],
     language: 'cpp',
   )
@@ -44,10 +41,21 @@ endif
 
 build_python_module = get_option('python_module')
 
+if compiler.get_id() != 'msvc'
+else
+  add_global_arguments(
+    [
+      '-fno-fast-math',
+      '-fno-unsafe-math-optimizations',
+      '-Wfatal-errors',
+      '-Wno-gnu-anonymous-struct',
+    ],
+    language: 'cpp',
+  )
+endif
 if compiler.get_id() == 'clang'
   add_global_arguments(
     [
-      '-Wno-gnu-anonymous-struct',
       '-fdenormal-fp-math=ieee',
     ],
     language: 'cpp',
@@ -55,7 +63,6 @@ if compiler.get_id() == 'clang'
 elif compiler.get_id() == 'gcc'
   add_global_arguments(
     [
-      '-Wno-gnu-anonymous-struct',
       '-ffloat-store',
     ],
     language: 'cpp',
