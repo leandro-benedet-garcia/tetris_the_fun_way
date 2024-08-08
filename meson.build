@@ -42,7 +42,6 @@ endif
 build_python_module = get_option('python_module')
 
 if compiler.get_id() != 'msvc'
-else
   add_global_arguments(
     [
       '-fno-fast-math',
@@ -53,6 +52,7 @@ else
     language: 'cpp',
   )
 endif
+
 if compiler.get_id() == 'clang'
   add_global_arguments(
     [
