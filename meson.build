@@ -16,7 +16,6 @@ endif
 
 add_global_arguments(
   [
-    '-fPIC',
     '-msse',
     '-msse2',
     '-msse3',
